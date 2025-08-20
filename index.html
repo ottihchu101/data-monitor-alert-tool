@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alert Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>📊 Data Monitor – Alert Dashboard</h1>
+  <table id="alerts-table">
+    <thead>
+      <tr>
+        <th>Timestamp</th>
+        <th>Product ID</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody id="alerts-body">
+      <!-- Alert rows will be inserted here by JS -->
+    </tbody>
+  </table>
+
+  <script>
+    async function loadAlerts() {
+      const res = await fetch('/api/alerts');
+      const data = await res.json();
+
+      const table = document.getElementById('alerts-body');
+      table.innerHTML = ''; // Clear previous
+
+      data.forEach(alert => {
+        const row = document.createElement('tr');
+
+        const time = new Date(alert.timestamp).toLocaleString();
+        row.innerHTML = `
+          <td>${time}</td>
+          <td>${alert.productId ?? 'N/A'}</td>
+          <td>${alert.message}</td>
+        `;
+        table.appendChild(row);
+      });
+    }
+
+    loadAlerts();
+    setInterval(loadAlerts, 30000); // Refresh every 30 seconds
+  </script>
+</body>
+</html>
