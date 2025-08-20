@@ -22,8 +22,9 @@ Includes a simple web dashboard to view and track alerts.
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/your-username/api-data-monitor.git
+   git clone https://github.com/YOUR-USERNAME/data-monitor-alert-tool.git
    cd data-monitor-alert-tool
+
    ```
 
 2. **Install dependencies**
