@@ -59,7 +59,7 @@ The dashboard displays all alerts stored in MongoDB:
 - **Product ID** (if available)  
 - **Alert message** describing the anomaly  
 
-![Dashboard Screenshot](./screenshot.png)
+![Dashboard Screenshot](./public/screenshot.png)
 
 ## 🔮 Future Improvements
 - Integrate additional APIs beyond e-commerce (financial, social, IoT, etc.)
