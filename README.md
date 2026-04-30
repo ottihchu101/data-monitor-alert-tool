@@ -1,68 +1,114 @@
 # API Data Monitor Tool
 
-A Node.js tool that monitors API data for anomalies and missing values, stores results in MongoDB, and sends real-time alerts via email.  
-Includes a simple web dashboard to view and track alerts.
+A Node.js tool that monitors API data for anomalies, stores results in Supabase (PostgreSQL), generates plain English explanations via Gemini AI, and sends real-time email alerts. Includes a React dashboard to view and track alerts over time.
 
-## 🚀 Features
-- Fetches product data from an API (tested with FakeStoreAPI, extendable to Best Buy API or others)
-- Injects test anomalies for pipeline verification
-- Validates fields (title, price, image), detects duplicates and invalid values
-- Logs alerts in MongoDB for persistence
-- Sends real-time email notifications via Nodemailer
-- Dashboard (HTML/CSS) served with Express to view alerts in real-time
-- Auto-refreshing dashboard every 30 seconds
+## Features
 
-## 🛠 Tech Stack
-- **Backend:** Node.js, Express, Axios  
-- **Database:** MongoDB (via Mongoose)  
-- **Email:** Nodemailer (Gmail SMTP)  
-- **Frontend:** HTML, CSS (served from `/public`)  
+- Fetches product data from FakeStoreAPI and validates for missing fields, invalid prices, and duplicates
+- Stores alerts in **Supabase (PostgreSQL)**
+- Uses **Gemini AI** to generate plain English explanations for each flagged alert
+- **React dashboard** with stats overview, trend chart, and full alert table
+- **Run Monitor Now** button to trigger a check directly from the UI
+- Dashboard auto-refreshes every 30 seconds
+- **10 Jest unit tests** covering all validator edge cases
+- Deployable to **Google Cloud Run**
 
-## ⚙️ Setup
+## Tech Stack
 
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/ottihchu101/data-monitor-alert-tool.git
-   cd data-monitor-alert-tool
-   ```
+- **Backend:** Node.js, Express, Axios
+- **Database:** Supabase (PostgreSQL)
+- **AI:** Google Gemini API (`gemini-1.5-flash`)
+- **Email:** Nodemailer (Gmail SMTP)
+- **Frontend:** React, Vite, Recharts
+- **Testing:** Jest
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+## Setup
 
-3. **Set up environment variables**  
-   Create a `.env` file (use `.env.example` as a template):
-   ```env
-   MONGO_URI=your_mongo_connection
-   EMAIL_USER=your_email
-   EMAIL_PASS=your_app_password
-   ALERT_TO=recipient@example.com
-   PORT=3000
-   ```
+### 1. Clone and install
 
-4. **Start the dashboard**
-   ```bash
-   npm run start
-   ```
-   Visit → `http://localhost:3000`
+```bash
+git clone https://github.com/ottihchu101/data-monitor-alert-tool.git
+cd data-monitor-alert-tool
+npm install
+```
 
-5. **Run the monitoring job**
-   ```bash
-   npm run monitor
-   ```
+### 2. Set up Supabase
 
-## 📊 Dashboard
-The dashboard displays all alerts stored in MongoDB:  
-- **Timestamp** of detection  
-- **Product ID** (if available)  
-- **Alert message** describing the anomaly  
+1. Create a free project at [supabase.com](https://supabase.com)
+2. In the SQL editor, run:
 
-![Dashboard Screenshot](./public/Screenshot.png)
+```sql
+create table alerts (
+  id uuid default gen_random_uuid() primary key,
+  timestamp timestamptz default now(),
+  product_id integer,
+  message text,
+  explanation text
+);
+```
 
-## 🔮 Future Improvements
-- Integrate additional APIs beyond e-commerce (financial, social, IoT, etc.)
-- Add a manual "Refresh" button and configurable auto-refresh interval
-- Slack/Discord alert integration
-- Advanced anomaly detection (e.g., statistical outliers, trend analysis)
-- Deploy live for continuous monitoring
+3. Copy your **Project URL** and **anon public key** from Project Settings → API.
+
+### 3. Environment variables
+
+Create a `.env` file (use `.env.example` as a template):
+
+```env
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your_anon_key
+
+GEMINI_API_KEY=your_gemini_api_key
+
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASS=your_app_password
+ALERT_TO=recipient@example.com
+
+PORT=3000
+```
+
+### 4. Build the frontend
+
+```bash
+npm run build
+```
+
+### 5. Start the server
+
+```bash
+npm start
+```
+
+Visit → `http://localhost:3000`
+
+### Run tests
+
+```bash
+npm test
+```
+
+## Deploy to Google Cloud Run
+
+### Prerequisites
+
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) installed and authenticated
+- A Google Cloud project with Cloud Run and Artifact Registry enabled
+
+### Steps
+
+```bash
+# Set your project
+gcloud config set project YOUR_PROJECT_ID
+
+# Build and push the Docker image
+gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/data-monitor-alert-tool
+
+# Deploy to Cloud Run
+gcloud run deploy data-monitor-alert-tool \
+  --image gcr.io/YOUR_PROJECT_ID/data-monitor-alert-tool \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --set-env-vars SUPABASE_URL=your_url,SUPABASE_ANON_KEY=your_key,GEMINI_API_KEY=your_key,EMAIL_USER=your_email,EMAIL_PASS=your_pass,ALERT_TO=recipient@example.com
+```
+
+Cloud Run will give you a live public URL.
