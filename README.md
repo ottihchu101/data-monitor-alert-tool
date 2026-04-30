@@ -1,11 +1,6 @@
 # API Data Monitor Tool
 
-A full-stack data quality monitoring tool that automatically detects anomalies in a product API feed, explains them in plain English using AI, and displays everything on a live React dashboard.
-
-🔗 **Live Demo:** [your-render-url.onrender.com](https://your-render-url.onrender.com)
-> First load may take ~30 seconds (free tier cold start)
-
----
+A full-stack data quality monitoring tool that detects anomalies in a product API feed, explains them in plain English using AI, and displays everything on a React dashboard.
 
 ## What it does
 
@@ -16,14 +11,6 @@ A full-stack data quality monitoring tool that automatically detects anomalies i
 5. Displays everything on a **React dashboard** with live stats and a trend chart
 6. Includes a **"Run Monitor Now"** button to trigger a check from the browser
 
----
-
-## Screenshots
-
-*(Add a screenshot of your dashboard here)*
-
----
-
 ## Tech Stack
 
 | Layer | Technology |
@@ -33,9 +20,6 @@ A full-stack data quality monitoring tool that automatically detects anomalies i
 | AI | Google Gemini API |
 | Frontend | React, Vite, Recharts |
 | Testing | Jest (10 unit tests) |
-| Deployed on | Render |
-
----
 
 ## Running Locally
 
@@ -80,25 +64,14 @@ PORT=3000
 ### 4. Build and start
 
 ```bash
-npm run build   # builds the React frontend
-npm start       # starts the server at http://localhost:3000
+npm run build
+npm start
 ```
+
+Visit → `http://localhost:3000`
 
 ### 5. Run tests
 
 ```bash
 npm test
 ```
-
----
-
-## Deploying to Render
-
-1. Push your code to GitHub
-2. Create a free account at [render.com](https://render.com)
-3. Click **New → Web Service** and connect your GitHub repo
-4. Set:
-   - **Build Command:** `npm install && npm run build`
-   - **Start Command:** `node server.js`
-5. Add your environment variables (`SUPABASE_URL`, `SUPABASE_ANON_KEY`, `GEMINI_API_KEY`)
-6. Click **Deploy** — Render gives you a live public URL
