@@ -63,12 +63,14 @@ PORT=3000
 
 ### 4. Build and start
 
+> This is a Node.js backend project — do **not** use Live Server. Run it with the commands below.
+
 ```bash
 npm run build
 npm start
 ```
 
-Visit → `http://localhost:3000`
+Then open your browser and go to → `http://localhost:3000`
 
 ### 5. Run tests
 
