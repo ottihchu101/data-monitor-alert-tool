@@ -1,6 +1,8 @@
 # API Data Monitor Tool
 
-A Node.js tool that monitors API data for anomalies, stores results in Supabase (PostgreSQL), generates plain English explanations via Gemini AI, and sends real-time email alerts. Includes a React dashboard to view and track alerts over time.
+A Node.js tool that monitors API data for anomalies, stores results in Supabase (PostgreSQL), and generates plain English explanations via Gemini AI. Includes a React dashboard to view and track alerts over time.
+
+> **Note:** Hosted on Render free tier — may take ~30 seconds to load on first visit.
 
 ## Features
 
@@ -11,18 +13,17 @@ A Node.js tool that monitors API data for anomalies, stores results in Supabase 
 - **Run Monitor Now** button to trigger a check directly from the UI
 - Dashboard auto-refreshes every 30 seconds
 - **10 Jest unit tests** covering all validator edge cases
-- Deployable to **Google Cloud Run**
 
 ## Tech Stack
 
 - **Backend:** Node.js, Express, Axios
 - **Database:** Supabase (PostgreSQL)
 - **AI:** Google Gemini API (`gemini-1.5-flash`)
-- **Email:** Nodemailer (Gmail SMTP)
 - **Frontend:** React, Vite, Recharts
 - **Testing:** Jest
+- **Deployed on:** Render
 
-## Setup
+## Local Setup
 
 ### 1. Clone and install
 
@@ -59,10 +60,6 @@ SUPABASE_ANON_KEY=your_anon_key
 
 GEMINI_API_KEY=your_gemini_api_key
 
-EMAIL_USER=your_email@gmail.com
-EMAIL_PASS=your_app_password
-ALERT_TO=recipient@example.com
-
 PORT=3000
 ```
 
@@ -86,29 +83,15 @@ Visit → `http://localhost:3000`
 npm test
 ```
 
-## Deploy to Google Cloud Run
+## Deploy to Render
 
-### Prerequisites
-
-- [Google Cloud CLI](https://cloud.google.com/sdk/docs/install) installed and authenticated
-- A Google Cloud project with Cloud Run and Artifact Registry enabled
-
-### Steps
-
-```bash
-# Set your project
-gcloud config set project YOUR_PROJECT_ID
-
-# Build and push the Docker image
-gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/data-monitor-alert-tool
-
-# Deploy to Cloud Run
-gcloud run deploy data-monitor-alert-tool \
-  --image gcr.io/YOUR_PROJECT_ID/data-monitor-alert-tool \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --set-env-vars SUPABASE_URL=your_url,SUPABASE_ANON_KEY=your_key,GEMINI_API_KEY=your_key,EMAIL_USER=your_email,EMAIL_PASS=your_pass,ALERT_TO=recipient@example.com
-```
-
-Cloud Run will give you a live public URL.
+1. Create a free account at [render.com](https://render.com)
+2. Click **New → Web Service** and connect your GitHub repo
+3. Set the following:
+   - **Build Command:** `npm install && npm run build`
+   - **Start Command:** `node server.js`
+4. Add environment variables:
+   - `SUPABASE_URL`
+   - `SUPABASE_ANON_KEY`
+   - `GEMINI_API_KEY`
+5. Click **Deploy**

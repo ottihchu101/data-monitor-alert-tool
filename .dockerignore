@@ -1,7 +1,0 @@
-node_modules
-client/node_modules
-client/src
-client/public
-.env
-.git
-*.test.js
