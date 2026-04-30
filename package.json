@@ -8,7 +8,7 @@
     "monitor": "node index.js",
     "dev": "nodemon server.js",
     "test": "jest",
-    "build": "cd client && npm run build"
+    "build": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",
