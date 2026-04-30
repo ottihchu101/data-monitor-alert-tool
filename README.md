@@ -22,9 +22,8 @@ Includes a simple web dashboard to view and track alerts.
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/YOUR-USERNAME/data-monitor-alert-tool.git
+   git clone https://github.com/ottihchu101/data-monitor-alert-tool.git
    cd data-monitor-alert-tool
-
    ```
 
 2. **Install dependencies**
@@ -63,7 +62,7 @@ The dashboard displays all alerts stored in MongoDB:
 
 ## 🔮 Future Improvements
 - Integrate additional APIs beyond e-commerce (financial, social, IoT, etc.)
-- Add a manual “Refresh” button and configurable auto-refresh interval
+- Add a manual "Refresh" button and configurable auto-refresh interval
 - Slack/Discord alert integration
 - Advanced anomaly detection (e.g., statistical outliers, trend analysis)
 - Deploy live for continuous monitoring
